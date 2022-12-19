@@ -20,9 +20,9 @@ public class BitD_Bot {
 
     public static void main(String[] args) throws LoginException, InterruptedException {
         //config= Dotenv.configure().load();
-        //key api =  new key();
+        key api =  new key();
         //Created a key object in another class to house bot token just to make this work. Will change later.
-        JDA bot = JDABuilder.createDefault("Token")
+        JDA bot = JDABuilder.createDefault(api.getToken())
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS)
                 .setActivity(Activity.watching("you roll dice"))
                 .addEventListeners(new SpoggListener())
