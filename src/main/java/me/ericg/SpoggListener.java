@@ -17,6 +17,14 @@ public class SpoggListener extends ListenerAdapter
             String content = message.getContentRaw();
             // getContentRaw() is an atomic getter
             // getContentDisplay() is a lazy getter which modifies the content for e.g. console view (strip discord formatting)
+
+            if (content.equals("!roll")){
+                dice_actions roller = new dice_actions();
+                int dice_result = roller.rollDice(6);
+
+                MessageChannel channel = event.getChannel();
+                channel.sendMessage(Integer.toString(dice_result)).queue();
+            }else
             if (content.equals("!ping"))
             {
                 MessageChannel channel = event.getChannel();
