@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 
 public class SpoggListener extends ListenerAdapter
@@ -22,7 +23,7 @@ public class SpoggListener extends ListenerAdapter
             String[] parsed = content.split(" ");
             //Using to get arguments for games and rolls
             //likely a problem if using commands with d in them
-
+            dice_actions roller = new dice_actions();
             if (parsed[0].equals("!ping"))
             {
                 MessageChannel channel = event.getChannel();
@@ -34,7 +35,7 @@ public class SpoggListener extends ListenerAdapter
                 channel.sendMessage("weh").queue();
             }
             else if (parsed[0].equals("!roll")){
-                dice_actions roller = new dice_actions();
+
                 MessageChannel channel = event.getChannel();
 
                     if(parsed.length == 2){ //for when a user asks for more dice
@@ -51,6 +52,17 @@ public class SpoggListener extends ListenerAdapter
                 int dice_result = roller.rollDice(6);
 
                 channel.sendMessage(Integer.toString(dice_result)).queue();
+            }
+            else if (parsed[0].equals("sql")){
+                Storage cheese = new Storage();
+
+                try {
+                    cheese.readinfo("crackers");
+                    MessageChannel channel = event.getChannel();
+                    channel.sendMessage("cheese").queue();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
         }
