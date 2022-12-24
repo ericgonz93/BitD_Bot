@@ -1,24 +1,32 @@
 package me.ericg;
-import java.security.Key;
 import java.sql.*;
-import java.util.Properties;
 
 public class Storage {
+    key pass = new key();   //password holding object while I get env to work
 
-    String readinfo(String character) throws SQLException {
-        key pass = new key();   //password holding object while I get env to work
+    Scoundrel readinfo(String character, Scoundrel chara) throws SQLException {
         String url = pass.getSupaPass();
         Connection conn = DriverManager.getConnection(url);
+        //scoundrel chara = new scoundrel();  //holder for character data
 
         Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery("SELECT task_title FROM todos WHERE id = 3");
+        ResultSet rs = st.executeQuery("SELECT * FROM characters WHERE name = '"
+                + character.toLowerCase() + "';");
         while (rs.next()) {
-            System.out.print("Column 1 returned ");
-            System.out.println(rs.getString(1));
+            chara.setAllParameters(rs.getString(3
+            ), rs.getString(4), rs.getString(5), rs.getString(6),
+                    rs.getString(7), rs.getString(8), rs.getString(9),
+                    rs.getString(10), rs.getInt(11), rs.getInt(12),
+                    rs.getInt(13), rs.getInt(14), rs.getInt(15),
+                    rs.getInt(16), rs.getInt(17), rs.getInt(18),
+                    rs.getInt(19), rs.getInt(20), rs.getInt(21),
+                    rs.getInt(22));
+            System.out.print("Name: ");
+            System.out.println(rs.getString(3));
         }
         rs.close();
         st.close();
 
-        return "cheese";
+        return chara;
     }
 }
