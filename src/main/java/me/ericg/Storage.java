@@ -4,7 +4,7 @@ import java.sql.*;
 public class Storage {
     key pass = new key();   //password holding object while I get env to work
 
-    Scoundrel readinfo(String character, Scoundrel chara) throws SQLException {
+    Scoundrel readInfo(String character, Scoundrel chara) throws SQLException {
         String url = pass.getSupaPass();
         Connection conn = DriverManager.getConnection(url);
         //scoundrel chara = new scoundrel();  //holder for character data
@@ -20,7 +20,8 @@ public class Storage {
                     rs.getInt(13), rs.getInt(14), rs.getInt(15),
                     rs.getInt(16), rs.getInt(17), rs.getInt(18),
                     rs.getInt(19), rs.getInt(20), rs.getInt(21),
-                    rs.getInt(22));
+                    rs.getInt(22), rs.getInt(23), rs.getInt(24),
+                    rs.getString(25));
             System.out.print("Name: ");
             System.out.println(rs.getString(3));
         }

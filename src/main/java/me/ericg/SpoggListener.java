@@ -1,11 +1,14 @@
 package me.ericg;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 //import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.EmbedBuilder;
 
+import java.awt.*;
 import java.sql.SQLException;
 import java.util.Arrays;
 
@@ -54,16 +57,17 @@ public class SpoggListener extends ListenerAdapter
                     break;
                 }
                 case "!character": {
+                    MessageChannel channel = event.getChannel();
+                    if(parsed.length != 3){channel.sendMessage("Invalid Name.").queue(); break;}
+
                     Storage cheese = new Storage();
                     String name = parsed[1] + "_" + parsed[2];
                     Scoundrel input = new Scoundrel();
                     Scoundrel output;
 
                     try {
-                        output = cheese.readinfo(name, input);
-                        MessageChannel channel = event.getChannel();
+                        output = cheese.readInfo(name, input);
                         outputCharacter(output, channel);
-                        //channel.sendMessage("cheese").queue();
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
@@ -72,32 +76,36 @@ public class SpoggListener extends ListenerAdapter
             }
         }
     void outputCharacter(Scoundrel toRead, MessageChannel channel){
+            if(toRead.getName() == null){channel.sendMessage("Character not found.").queue(); return;}
 
-            String build = "```" +     //TODO: change to just a string call
-            "Name: " + toRead.name + "\n" +
-            "Alias: " + toRead.alias + "\n" +
-            "Playbook: " + toRead.playbook + "\n" +
-            "Crew: " + toRead.crew + "\n" +
-            "Heritage: " + toRead.heritage + "\n" +
-            "Background: " + toRead.background + "\n" +
-            "Vice: " + toRead.vice + "\n" +
-            "Special: " + toRead.special + "\n" +
-            "Attune: " + toRead.attune + "\n" +
-            "Command: " + toRead.command + "\n" +
-            "Consort: " + toRead.consort + "\n" +
-            "Finesse: " + toRead.finesse + "\n" +
-            "Hunt: " + toRead.hunt + "\n" +
-            "Prowl: " + toRead.prowl + "\n" +
-            "Skirmish: " + toRead.skirmish + "\n" +
-            "Study: " + toRead.study + "\n" +
-            "Survey: " + toRead.survey + "\n" +
-            "Sway: " + toRead.sway + "\n" +
-            "Tinker: " + toRead.tinker + "\n" +
-            "Wreck: " + toRead.wreck + "\n" +
-            "```";
+            EmbedBuilder embed = new EmbedBuilder();
 
-            channel.sendMessage(build).queue();
+            embed.setTitle(toRead.getName());
+            embed.setColor(Color.red);
+            embed.addField("Alias", toRead.getAlias(),true);
+            embed.addField("Playbook", toRead.getPlaybook(),true);
+            embed.addField("Crew", toRead.getCrew(),true);
+            embed.addField("Heritage", toRead.getHeritage(),true);
+            embed.addField("Background", toRead.getBackground(),true);
+            embed.addField("Vice", toRead.getVice(),true);
+            embed.addField("Special Ability", toRead.getSpecial(),true);
+            embed.addField("Attune", Integer.toString(toRead.getAttune()),true);
+            embed.addField("Command", Integer.toString(toRead.getCommand()),true);
+            embed.addField("Consort", Integer.toString(toRead.getConsort()),true);
+            embed.addField("Finesse", Integer.toString(toRead.getFinesse()),true);
+            embed.addField("Hunt", Integer.toString(toRead.getHunt()),true);
+            embed.addField("Prowl", Integer.toString(toRead.getProwl()),true);
+            embed.addField("Skirmish", Integer.toString(toRead.getSkirmish()),true);
+            embed.addField("Study", Integer.toString(toRead.getStudy()),true);
+            embed.addField("Survey", Integer.toString(toRead.getSurvey()),true);
+            embed.addField("Sway", Integer.toString(toRead.getSway()),true);
+            embed.addField("Tinker", Integer.toString(toRead.getTinker()),true);
+            embed.addField("Wreck", Integer.toString(toRead.getWreck()),true);
+            embed.addField("Coin", Integer.toString(toRead.getCoin ()),true);
+            embed.addField("Stress", Integer.toString(toRead.getStress()),true);
+            embed.addField("Trauma", toRead.getTrauma(),true);
 
+        channel.sendMessageEmbeds(embed.build()).queue();
     }
 
     }
