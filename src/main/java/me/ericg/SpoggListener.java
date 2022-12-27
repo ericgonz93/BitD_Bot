@@ -73,6 +73,52 @@ public class SpoggListener extends ListenerAdapter
                     }
                     break;
                 }
+                case "!create": {
+                    MessageChannel channel = event.getChannel();
+                    if(parsed.length != 9){     //check if valid for createCharacter()
+                        channel.sendMessage("Parameter order is firstname lastname playbook alias" +
+                                " crew heritage background vice").queue();
+                        break;
+                    }
+
+                    Storage cheese = new Storage();
+                    String name = (parsed[1] + "_" + parsed[2]).toLowerCase();
+                    String output;
+
+                    try {
+                        //separated output for cleaner look
+                        output = cheese.createCharacter(name, parsed[3], parsed[4],
+                                parsed[5], parsed[6], parsed[7], parsed[8]);
+                        channel.sendMessage(output).queue();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                }
+                case "!update": {
+                    MessageChannel channel = event.getChannel();
+                    if(parsed.length != 5){     //check if valid for updateStat()
+                        channel.sendMessage("Use update as !update [first name] [last name]" +
+                                "[stat] [value]. " +
+                                "Format special ability and trauma updates as follows \n" +
+                                "```!update [first name] [last name] special [ability-1,ability-2]\n" +
+                                "!update [first name] [last name] trauma [trauma-1,trauma-2].```").queue();
+                        break;
+                    }
+
+                    Storage cheese = new Storage();
+                    String name = (parsed[1] + "_" + parsed[2]).toLowerCase();
+                    String output;
+
+                    try {
+                        //separated output for cleaner look
+                        output = cheese.updateStat(name, parsed[3], parsed[4]);
+                        channel.sendMessage(output).queue();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                }
             }
         }
     void outputCharacter(Scoundrel toRead, MessageChannel channel){
