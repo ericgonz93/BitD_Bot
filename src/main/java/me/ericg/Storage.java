@@ -8,7 +8,7 @@ public class Storage {
         Connection conn = DriverManager.getConnection(url);
 
         Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * FROM characters WHERE name = '"
+        ResultSet rs = st.executeQuery("SELECT * FROM scoundrels WHERE name = '"
                 + character.toLowerCase() + "';");
         while (rs.next()) {
             chara.setAllParameters(rs.getString(3
@@ -19,7 +19,7 @@ public class Storage {
                     rs.getInt(16), rs.getInt(17), rs.getInt(18),
                     rs.getInt(19), rs.getInt(20), rs.getInt(21),
                     rs.getInt(22), rs.getInt(23), rs.getInt(24),
-                    rs.getString(25));
+                    rs.getString(25), rs.getInt(26));
             System.out.print("Name: ");
             System.out.println(rs.getString(3));
         }
@@ -34,7 +34,7 @@ public class Storage {
         Connection conn = DriverManager.getConnection(url);
 
         Statement st = conn.createStatement();
-        st.execute("INSERT into characters (name, playbook, alias, " +
+        st.execute("INSERT into scoundrels (name, playbook, alias, " +
                 "crew, heritage, background, vice) values (\'" +
                 name + "\', \'" + playbook + "\', \'" + alias + "\', \'" + crew +
                         "\', \'" + heritage + "\', \'" +
@@ -54,7 +54,7 @@ public class Storage {
         //int number = 404;   //error number
 
         if(stat.equalsIgnoreCase("special")){
-            st.execute("UPDATE characters set " + stat.toLowerCase() + "_ability" +
+            st.execute("UPDATE scoundrels set " + stat.toLowerCase() + "_ability" +
                     " = \'" + value +"\' WHERE name = \'" + name + "\';");
             st.close();
             return "Updated " + name + "'s " + stat + " to " + value +".";
@@ -66,7 +66,8 @@ public class Storage {
         (!stat.equalsIgnoreCase("heritage")) && (!stat.equalsIgnoreCase("background")) &&
         (!stat.equalsIgnoreCase("vice")) && (!stat.equalsIgnoreCase("special")) &&
         (!stat.equalsIgnoreCase("trauma"))){
-        System.out.print("here \n");
+        System.out.print("stat:" + stat + "\n");
+            System.out.print("value:" + value + "\n");
             //checking if expected string is text
             try{
                int number = Integer.parseInt(value);
@@ -74,7 +75,7 @@ public class Storage {
                String check = checkStatValidity(stat, value);   //for checking valid input
                if(check != "ok"){return check;}
 
-               st.execute("UPDATE characters set " + stat.toLowerCase() +
+               st.execute("UPDATE scoundrels set " + stat.toLowerCase() +
                         " = " + number +" WHERE name = \'" + name + "\';");
                 st.close();
                 return "Updated " + name + "'s " + stat + " to " + value +".";
@@ -85,7 +86,7 @@ public class Storage {
         }
 
         else{
-            st.execute("UPDATE characters set " + stat.toLowerCase() +
+            st.execute("UPDATE scoundrels set " + stat.toLowerCase() +
                 " = \'" + value +"\' WHERE name = \'" + name + "\';");
         st.close();
         return "Updated " + name + "'s " + stat + " to " + value +".";

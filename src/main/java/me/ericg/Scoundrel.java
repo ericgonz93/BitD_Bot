@@ -24,12 +24,13 @@ public class Scoundrel {    //information holder for Blades Characters
     private int coin;
     private int stress;
     private String trauma = "none";
+    private int stash;
 
     void setAllParameters(String newName, String newPlaybook, String newAlias, String newCrew,
                           String newHeritage, String newBackground, String newVice, String newSpecial,
                           int newAttune, int newCommand, int newConsort, int newFinesse, int newHunt,
                           int newProwl, int newSkirmish, int newStudy, int newSurvey, int newSway, int newTinker,
-                          int newWreck, int newCoin, int newStress, String newTrauma){
+                          int newWreck, int newCoin, int newStress, String newTrauma, int newStash){
             this.name = newName;
             this.playbook = newPlaybook;
             this.alias = newAlias;
@@ -53,6 +54,7 @@ public class Scoundrel {    //information holder for Blades Characters
             this.coin = newCoin;
             this.stress = newStress;
             this.trauma = newTrauma;
+            this.stash = newStash;
     }
 
     public int getInsight(){
@@ -69,10 +71,10 @@ public class Scoundrel {    //information holder for Blades Characters
     public int getProwess(){
         int prowess = 0;
 
-        if(hunt > 0){prowess++;}
-        if(study > 0){prowess++;}
-        if(survey > 0){prowess++;}
-        if(tinker > 0){prowess++;}
+        if(finesse > 0){prowess++;}
+        if(prowl > 0){prowess++;}
+        if(skirmish > 0){prowess++;}
+        if(wreck > 0){prowess++;}
 
         return prowess;
     }
@@ -80,10 +82,10 @@ public class Scoundrel {    //information holder for Blades Characters
     public int getResolve(){
         int resolve = 0;
 
-        if(hunt > 0){resolve++;}
-        if(study > 0){resolve++;}
-        if(survey > 0){resolve++;}
-        if(tinker > 0){resolve++;}
+        if(attune > 0){resolve++;}
+        if(command > 0){resolve++;}
+        if(consort > 0){resolve++;}
+        if(sway > 0){resolve++;}
 
         return resolve;
     }
@@ -134,4 +136,5 @@ public class Scoundrel {    //information holder for Blades Characters
     public int getCoin(){return coin;}
     public int getStress(){return stress;}
     public String getTrauma(){return trauma;}
+    public int getStash(){return stash;}
 }
